@@ -6,7 +6,7 @@ class postsService {
       const allPosts = await postsModel.getAllPosts()
       return allPosts
     } catch (error) {
-      console.log("SERVICE: Not posible get all posts")
+      console.log("Not possible get all posts")
     }
   }
 
@@ -15,16 +15,28 @@ class postsService {
       const newPost = await postsModel.postNew(input)
       return newPost
     } catch (error) {
-      console.log("SERVICE: Not posible create the post", error)
+      console.log("Not possible create the post", error)
     }
   }
 
-  static deletePost = async () => {
-
+  static deletePost = async (id) => {
+    try {
+      const postDelete = await postsModel.deletePost(id)
+      return postDelete
+    } catch (error) {
+      console.log("Not possible delete the post", error)
+      throw error
+    }
   }
 
-  static editPost = async () => {
-
+  static editPost = async (id, newPostBody) => {
+    try {
+      const newPostUpdate = await postsModel.editPost(id, newPostBody)
+      return newPostUpdate
+    } catch (error) {
+      console.log("Not possible update the post", error)
+      throw error
+    }
   }
 }
 

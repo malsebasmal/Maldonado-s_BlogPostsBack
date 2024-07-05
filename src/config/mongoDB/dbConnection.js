@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from "mongodb"
+import { MongoClient, ServerApiVersion, ObjectId } from "mongodb"
 const uri = "mongodb+srv://malsebasmal:dedoroto11@cluster0.drml1bt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const client = new MongoClient(uri, {
@@ -21,5 +21,6 @@ async function dbConnection() {
 }
 
 export {
-  dbConnection
+  dbConnection,
+  ObjectId
 }

@@ -1,10 +1,9 @@
-import { dbConnection } from "../../config/mongoDB/dbConnection.js"
+import { dbConnection, ObjectId } from "../../config/mongoDB/dbConnection.js"
 
 class postsModel {
   static getAllPosts = async () => {
     const DB = await dbConnection()
     const allPostsCollection = await DB.find({}).toArray()
-    console.log(allPostsCollection)
     return allPostsCollection
   }
 
@@ -14,12 +13,31 @@ class postsModel {
     return await DB.findOne({_id: insertedId})
   }
 
-  static deletePost = async () => {
-    const DB = dbConnection()
+  static deletePost = async (id) => {
+    const DB = await dbConnection()
+    const idPost = new ObjectId(id)
+    
+    const postDelete = await DB.findOne({ _id: idPost })
+
+    if (!postDelete) {
+      throw new Error ("Not possible found the post for delete")
+    }
+
+    await DB.deleteOne({_id: idPost})
+    return postDelete
   }
 
-  static editPost = async () => {
-    const DB = dbConnection()
+  static editPost = async (id, newPostBody) => {
+    const DB = await dbConnection()
+    const idPost = new ObjectId(id)
+
+    const newPostUpdate = await DB.findOneAndUpdate({_id: idPost}, {$set: newPostBody}, {returnDocument: "after"})
+
+    if (!newPostUpdate) {
+        throw new Error ("Not possible update the post")
+    }
+
+    return newPostUpdate
   }
 }
 

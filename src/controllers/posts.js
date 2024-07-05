@@ -1,5 +1,5 @@
 import { postsService } from "../services/posts.js"
-import { validePost } from "../schemas/posts.js"
+import { partialValidePost, validePost } from "../schemas/posts.js"
 
 class postsController {
   static getAllPosts = async (req, res) => {
@@ -9,7 +9,7 @@ class postsController {
     } catch (error) {
       res.status(404).json({
         error: error.message,
-        error: "CONTROLLER: Not posible get all posts"
+        error: "Not possible get all posts"
       })
     }
   }
@@ -22,18 +22,37 @@ class postsController {
     } catch (error) {
       res.status(422).json({
         errorDataValide: error.message,
-        error: "CONTROLLER: Not posible create the post"
+        error: "Not possible create the post"
       })
       
     }
   }
 
   static deletePost = async (req, res) => {
-
+    try {
+      const { id } = req.params
+      const postDelete = await postsService.deletePost(id)
+      res.status(200).json(postDelete)
+    } catch (error) {
+      res.status(404).json({
+        errorDelete: error.message,
+        error: "Not possible delete the post"
+      })
+    }
   }
 
   static editPost = async (req, res) => {
-
+    try {
+      const { id } = req.params
+      const postValidate = partialValidePost(req.body)
+      const newPostUpdate = await postsService.editPost(id, postValidate)
+      res.status(202).json(newPostUpdate)
+    } catch (error) {
+      res.status(400).json({
+        errorUpdate: error.message,
+        error: "Not possible update the post"
+      })
+    }
   }
 }
 

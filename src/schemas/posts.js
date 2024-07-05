@@ -15,6 +15,16 @@ function validePost(input) {
   }
 }
 
+function partialValidePost(input) {
+  const postValidate = postSchema.partial().safeParse(input)
+  if (postValidate.success) {
+    return postValidate.data
+  } else {
+    throw new Error(postValidate.error.errors.map(err => err.message).join(', '))
+  }
+}
+
 export {
-  validePost
+  validePost,
+  partialValidePost
 }
