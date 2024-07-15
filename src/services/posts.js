@@ -6,7 +6,16 @@ class postsService {
       const allPosts = await postsModel.getAllPosts()
       return allPosts
     } catch (error) {
-      console.log("Not possible get all posts")
+      console.log("Not possible get all posts", error)
+    }
+  }
+
+  static getOnePost = async (id) => {
+    try {
+      const onePost = await postsModel.getOnePost(id)
+      return onePost
+    } catch (error) {
+      console.log("Not possible get post", error)
     }
   }
 

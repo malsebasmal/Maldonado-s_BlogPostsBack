@@ -14,6 +14,19 @@ class postsController {
     }
   }
 
+  static getOnePost = async (req, res) => {
+    try {
+      const { id } = req.params
+      const onePost = await postsService.getOnePost(id)
+      res.status(200).json(onePost)
+    } catch (error) {
+      res.status(404).json({
+        error: error.message,
+        error: "Not possible get post"
+      })
+    }
+  }
+
   static postNew = async (req, res) => {
     try {
       const postValidate = validePost(req.body)

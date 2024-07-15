@@ -6,6 +6,14 @@ class postsModel {
     const allPostsCollection = await DB.find({}).toArray()
     return allPostsCollection
   }
+  
+  static getOnePost = async (id) => {
+    const DB = await dbConnection()
+    const idPost = new ObjectId(id)
+
+    const onePost = await DB.findOne({_id: idPost})
+    return onePost
+  }
 
   static postNew = async (input) => {
     const DB = await dbConnection()
